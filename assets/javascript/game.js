@@ -3,7 +3,6 @@ audio.src = 'assets/music/OttoHalmén-SylvanWaltz.mp3';
 audio.controls = true;
 audio.autoplay = true;
 document.body.appendChild(audio);
-audio.crossOrigin = "anonymous";
 
 var context = new AudioContext();
 var analyser = context.createAnalyser();
