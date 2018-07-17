@@ -1,0 +1,85 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+  }
+
+body {
+    font-family: arial, sans-serif;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+  }
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    
+  }
+
+#menu.main {
+    background-image: url('../images/swamp.jpg');
+  }
+
+  #main {
+    display: block;        
+    margin-top: 25%;
+  }
+
+  #main h1 {
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  }
+
+  .button {
+    display: block;
+    width: 150px;
+    margin: 0 auto;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #053a0c;
+    color: white;
+    font-weight: bold;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    background-color: #0f4d29;
+    background-image: -webkit-linear-gradient(bottom, #0f4d29 0%, #053a0c 100%);
+    background-image:         linear-gradient(to bottom, #0f4d29 0%, #053a0c 100%);
+    border-radius: 5px;
+  }
+  .button:hover {
+    background-color: #0db360;
+    background-image: -webkit-linear-gradient(bottom, #0f4d29 0%, #053a0c 100%);
+    background-image:         linear-gradient(to bottom, #0f4d29 0%, #053a0c 100%);
+  }
+
+  #menu {
+    display: block;
+    position: relative;    
+    width: 100%;
+    height: 660px;
+    border: 1px solid black;
+    z-index: 2;
+    text-align: center;
+    background-color: grey;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0
+  }
+  li {
+    padding: 10px 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  }
+
+  a:hover {
+      text-decoration: none;
+      color: rgb(179, 178, 178);
+  }
