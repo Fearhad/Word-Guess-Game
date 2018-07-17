@@ -4,6 +4,9 @@
 var main = document.getElementById('main');
 var game = document.getElementById('game');
 var credits = document.getElementById('credits');
+
+
+
 /**
  * Hide element
  */
@@ -46,6 +49,7 @@ document.querySelectorAll('.credits')[0].addEventListener('click', function() {
     document.getElementById('menuSong').pause();
     document.getElementById('creditsSong').play();
     console.log("test");
+    
 });
 
 mainMenu();

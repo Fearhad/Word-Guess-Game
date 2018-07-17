@@ -137,3 +137,10 @@ a:hover {
     text-decoration: none;
     color: rgb(179, 178, 178);
 }
+
+.center-screen {
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 20%;
+    color: white;
+  }
