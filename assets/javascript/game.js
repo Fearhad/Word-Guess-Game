@@ -21,6 +21,7 @@ function show(el) {
  */
 function mainMenu() {
   show(main);
+  document.getElementById('menuSong').play();
 //   $('#menuSong')[0].play();
 }
 /**
