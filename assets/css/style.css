@@ -33,7 +33,7 @@ body {
   }
 
   .button {
-    display: block;
+    display: none;
     width: 150px;
     margin: 0 auto;
     height: 30px;

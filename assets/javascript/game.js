@@ -1,3 +1,23 @@
+var audio = new Audio();
+audio.src = 'assets/music/OttoHalmén-SylvanWaltz.mp3';
+audio.controls = true;
+audio.autoplay = true;
+document.body.appendChild(audio);
+audio.crossOrigin = "anonymous";
+
+var context = new AudioContext();
+var analyser = context.createAnalyser();
+
+
+window.addEventListener('load', function(e) {
+  // Our <audio> element will be the audio source.
+  var source = context.createMediaElementSource(audio);
+  source.connect(analyser);
+  analyser.connect(context.destination);
+
+
+}, false);
+
 /**
  * Load the main menu
  */
@@ -20,6 +40,7 @@ function show(el) {
  */
 function mainMenu() {
   show(main);
+//   $('#menuSong')[0].play();
 }
 /**
  * Click handlers for the different menu screens
@@ -33,4 +54,5 @@ document.querySelectorAll('.play')[0].addEventListener('click', function() {
 
   /* startGame(); */
 });
-  
+
+mainMenu();
