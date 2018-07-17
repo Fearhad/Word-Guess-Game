@@ -2,6 +2,7 @@
  * Load the main menu
  */
 var main = document.getElementById('main');
+var game = document.getElementById('game');
 /**
  * Hide element
  */
@@ -28,8 +29,10 @@ function mainMenu() {
 
 document.querySelectorAll('.play')[0].addEventListener('click', function() {
   hide(menu);
+  show(game);
   document.getElementById('menuSong').pause();
-  
+  document.getElementById('gameSong').play();
+ 
   console.log("test");
 
   /* startGame(); */
