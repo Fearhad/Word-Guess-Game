@@ -23,7 +23,7 @@ body {
   }
 
   #main {
-    display: block;        
+    display: none;        
     margin-top: 25%;
   }
 
