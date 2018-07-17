@@ -49,6 +49,19 @@ body {
     background-size: cover;
 }
 
+#credits.main {
+    background-image: url('../images/sunsetintheswamp.png');
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#credits {
+    display: none;
+}
 
 #game {
     display: none;
