@@ -13,7 +13,7 @@
       .then(response => response.arrayBuffer())
       .then(arrayBuffer => context.decodeAudioData(arrayBuffer))
       .then(audioBuffer => {
-        playButton.disabled = false;
+        playButton.disabled = true;
         yodelBuffer = audioBuffer;
       });
       
