@@ -45,5 +45,7 @@ document.querySelectorAll('.credits')[0].addEventListener('click', function() {
     show(credits);
     document.getElementById('menuSong').pause();
     document.getElementById('creditsSong').play();
+    console.log("test");
+});
 
 mainMenu();
