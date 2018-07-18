@@ -1,3 +1,33 @@
+var game = {
+  gameState: "newGame",
+  gameConsole: 0,
+  start: function() {
+    this.gameConsole = document.getElementById("gameConsole");
+    if (gameConsole) {
+      gameConsole.innerHTML = "The Game is a Foot :P!";
+    }
+    this.gameState = "isPlaying";   
+  },
+  
+  processGuess: function(guess) {
+     console.log(guess);
+     this.gameConsole.innerHTML = "You guessed " + guess + " and that guess is wrong!";
+  },
+ }
+ 
+ document.onkeyup = function(event) {
+   var letter = event.key.toLowerCase();
+   game.processGuess(letter);
+ };
+ 
+ if (game.gameState === "newGame") {
+  game.start();
+ }
+
+
+ 
+
+
 
 
 /**
