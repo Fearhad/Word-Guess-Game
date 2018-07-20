@@ -67,9 +67,8 @@ var game = {
   },
 
   processGuess: function (guess) {
-    console.log(guess);
     if (event.keyCode >= 65 && event.keyCode <= 90) {
-      this.gameConsole.innerHTML = "You guessed " + guess + " and that guess is wrong!";
+
       if (this.guessArray.indexOf(guess) > -1) {
         this.gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
       } else {
@@ -87,20 +86,20 @@ var game = {
   },
 
   replaceLetters: function (guess) {
-    var arrayPosition = 0;
-    var position = -1;
-    var replacementString = "";
+    if (theAnswer.indexOf(guess) > -1) {
+      console.log(guess + " found inside your_string");
+      var myIndex = theAnswer.indexOf(guess)
+      var myString = getHiddenWord[2]
+      myString = setCharAt(myString,myIndex, guess);
 
-    while (arrayPosition != -1) {
-      arrayPosition = getHiddenWord[0].indexOf(guess, position + 1);
-      console.log(getHiddenWord[0].indexOf(guess, position + 1));
-      if (arrayPosition == -1) { break; }
-      replacementString = getHiddenWord[2].substring(0, arrayPosition) + getHiddenWord[0][arrayPosition] + getHiddenWord[2].substring(arrayPosition + 1);
-      console.log(replacementString);
-      getHiddenWord[2] = replacementString;
-      console.log(getHiddenWord[2]);
-      position = arrayPosition;
-      console.log(position);
+     function setCharAt(str,index,chr) {
+       if (index > str.length-1) return str;
+       return str.substr(0,index) + chr + str.substr(index+1);
+     }
+
+      console.log(myString);
+    } else {
+      this.gameConsole.innerHTML = "You guessed " + guess + " and that guess is wrong!";
     }
   },
 
@@ -109,18 +108,15 @@ var game = {
     findWord: function () {
       var wordListArray = wordList[Math.floor(wordList.length * Math.random())];
       return wordListArray.concat(this.hiddenWord(wordListArray[0]));
-      console.log(wordListArray)
     },
 
     hiddenWord: function (newWord) {
       var hiddenString = "";
       for (i = 0; i < newWord.length; i++) {
-        console.log(newWord[i]);
         if (newWord[i] == ' ') {
-
-          hiddenString = hiddenString + "   ";
+          hiddenString = hiddenString + " ";
         } else {
-          hiddenString = hiddenString + "_ ";
+          hiddenString = hiddenString + "_";
         }
       }
       return hiddenString;
@@ -131,7 +127,7 @@ var game = {
       game.showScreen(gameScreen);
       hideWord.innerHTML = getHiddenWord[2];
       hint.innerHTML = "<h2>Hint</h2><hr><p>" + getHiddenWord[1] + "</p>";
-      theAnswer = getHiddenWord[0];
+      theAnswer = getHiddenWord[0].toLowerCase;
       menuSong.pause();
       gameSong.play();
     },
@@ -161,8 +157,8 @@ var game = {
 }
 
 document.onkeyup = function (event) {
-  var letter = event.key.toLowerCase();  
-  if (game.gameState === "newGame") {    
+  var letter = event.key.toLowerCase();
+  if (game.gameState === "newGame") {
     game.start();
   } else {
     game.processGuess(letter);
@@ -198,8 +194,6 @@ document.querySelectorAll('.play')[0].addEventListener('click', function () {
   document.getElementById('menuSong').pause();
   document.getElementById('gameSong').play();
 
-  console.log("test");
-
   /* startGame(); */
 });
 
@@ -207,7 +201,6 @@ document.querySelectorAll('.credits')[0].addEventListener('click', function () {
   game.showScreen(credits)
   document.getElementById('menuSong').pause();
   document.getElementById('creditsSong').play();
-  console.log("test");
 
 });
 $(".toggle").on("click", function () {
