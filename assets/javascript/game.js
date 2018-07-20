@@ -1,62 +1,154 @@
+var wordList = [
+  ['Ancient Land of Ys', 'an action role-playing video game series developed by Nihon Falcom in 1987'],
+  ['The Bards Tale', 'a fantasy role-playing video game designed and programmed by Michael Cranford, produced by Interplay Productions in 1985 and distributed by Electronic Arts.'],
+  ['BattleTech', 'a turn-based adventure/role-playing video game released in 1988 by Westwood Associates and based on the franchise of the same name'],
+  ['Curse of the Azure Bonds', 'a role-playing video game developed and published by Strategic Simulations, Inc (SSI) in 1989. It is the second in a four-part series of Forgotten Realms Advanced Dungeons & Dragons Gold Box adventure computer games, continuing the events after the first part, Pool of Radiance.'],
+  ['Dungeon Master', 'a realtime role-playing video game featuring a pseudo-3D first-person perspective. It was developed and published by FTL Games for the Atari ST in 1987,[5] almost identical Amiga and PC (DOS) ports following in 1988 and 1989.'],
+  ['Pool of Radiance', 'a role-playing video game developed and published by Strategic Simulations, Inc (SSI) in 1988. It was the first adaptation of TSRs Advanced Dungeons & Dragons (AD&D) fantasy role-playing game for home computers, becoming the first episode in a four-part series of D&D computer adventure games.'],
+  ['Hack', 'a 1982 roguelike video game that introduced shops as gameplay elements and expanded available monsters, items, and spells.'],
+  ['Might and Magic', 'a series of role-playing video games from New World Computing'],
+  ['Ultima', 'a series of open world fantasy role-playing video games from Origin Systems, Inc'],
+  ['Wizardry', 'a series of open world fantasy role-playing video games from Sir-Tech'],
+  ['Phantasie', "a fantasy role-playing video game series designed by Winston Douglas Wood and published by Strategic Simulations in 1985."],
+  ['The Magic Candle', 'a role-playing video game designed by Ali Atabek and developed and published by Mindcraft in 1989.'],
+  ['Rogue', 'a dungeon crawling video game by Michael Toy and Glenn Wichman and was originally developed around 1980 for Unix-based mainframe systems as a freely-distributed executable'],
+  ["Wasteland", 'a science fiction open world role-playing video game developed by Interplay and published by Electronic Arts in 1988'],
+  ['Times of Lore', 'a 1988 action role-playing game that was developed and published by Origin Systems for several platforms, including PC, Commodore 64/128, ZX Spectrum, Amstrad, Atari ST, Apple II, NES, and Amiga.'],
+  ['Questron', 'a fantasy role-playing video game series produced by Strategic Simulations, Inc.'],
+  ['Legacy of the Ancients', 'a fantasy role-playing video game published by Electronic Arts in 1987 from the creators of Questron'],
+  ['Ultima Underworld', 'a first-person role-playing video game (RPG) developed by Blue Sky Productions (later Looking Glass Studios) and published by Origin Systems.'],
+  ['System Shock', 'a 1994 first-person action-adventure video game developed by Looking Glass Technologies and published by Origin Systems'],
+  ['Temple of Asphai', ' a dungeon crawl role-playing video game developed and published by Automated Simulations (later renamed to Epyx) in 1979']
+]
+
+var menu = document.getElementById('menu');
+var gameScreen = document.getElementById('gameScreen');
+var credits = document.getElementById('credits');
+
+var menuSong = document.getElementById("menuSong");
+var gameSong = document.getElementById("gameSong");
+var creditSong = document.getElementById("creditSong");
+
+var hideWord = document.getElementById("hideWord");
+var hint = document.getElementById("hint");
+var scoreBoard = document.getElementById("scoreBoard");
+
+var displayScreens = [menu, gameScreen, credits];
+var getHiddenWord;
+var theAnswer;
+
+
 var game = {
+
+  wins: 0,
+  losses: 0,
+  remainingGuesses: 9,
+
+  showScreen: function (activeDisplay) {
+    displayScreens.forEach(function (currentDisplay) {
+      if (currentDisplay == activeDisplay) {
+        currentDisplay.style.display = "block";
+      } else {
+        currentDisplay.style.display = "none";
+      }
+    })
+  },
+
   gameState: "newGame",
   gameConsole: 0,
-  start: function() {
+  start: function () {
     this.gameConsole = document.getElementById("gameConsole");
     if (gameConsole) {
       gameConsole.innerHTML = "The Game is a Foot :P!";
     }
-    this.gameState = "isPlaying";   
+    this.gameState = "isPlaying";
   },
-  
-  processGuess: function(guess) {
-     console.log(guess);
-     this.gameConsole.innerHTML = "You guessed " + guess + " and that guess is wrong!";
+
+  processGuess: function (guess) {
+    console.log(guess);
+    this.gameConsole.innerHTML = "You guessed " + guess + " and that guess is wrong!";
   },
- }
- 
- document.onkeyup = function(event) {
-   var letter = event.key.toLowerCase();
-   game.processGuess(letter);
- };
- 
- if (game.gameState === "newGame") {
-  game.start();
- }
 
+  gameUI: {
 
- 
+    findWord: function () {
+      var wordListArray = wordList[Math.floor(wordList.length * Math.random())];
+      return wordListArray.concat(this.hiddenWord(wordListArray[0]));
+      console.log(wordListArray)
+    },
 
+    hiddenWord: function (newWord) {
+      var hiddenString = "";
+      for (i = 0; i < newWord.length; i++) {
+        console.log(newWord[i]);
+        if (newWord[i] == ' ') {
+          
+          hiddenString = hiddenString + "   ";
+        } else {
+          hiddenString = hiddenString + "_ ";
+        }
+      }
+      return hiddenString;
+    },
 
+    initGame: function () {
+      getHiddenWord = this.findWord();
+      game.showScreen(gameScreen);
+      hideWord.innerHTML = getHiddenWord[2];
+      hint.innerHTML = "<h2>Hint</h2><hr><p>" + getHiddenWord[1] + "</p>";
+      theAnswer = getHiddenWord[0];
+      menuSong.pause();
+      gameSong.play();
+    },
+
+    updateScoreBoard: function (result) {
+      if (result == "win") {
+        game.wins++
+      } else {
+        game.losses++
+      }
+      scoreBoard.innerHTML = "<ul><li>Wins: "+ game.wins + "</li><li>Losses: " + game.losses + "</li><li>Guesses Left: " + game.remainingGuesses + "</li></ul>"
+    },
+
+    winCondition: function () {
+      gameConsole.innerHTML = "You win! The Classic RPG was " + theAnswer;
+      this.updateScoreBoard("win");
+    },
+
+    lossCondition: function () {
+      gameConsole.innerHTML = "You Lost! You have met your fate at the Gallows Pole! The Classic RPG was " + theAnswer;
+      this.updateScoreBoard("loss");
+    },
+
+  },
+
+    
+}
+
+document.onkeyup = function (event) {
+  var letter = event.key.toLowerCase();
+  game.processGuess(letter);
+  if (game.gameState === "newGame") {
+    game.start();
+  };
+};
 
 
 /**
  * Load the main menu
  */
-var main = document.getElementById('main');
-var game = document.getElementById('game');
-var credits = document.getElementById('credits');
+
 
 
 
 /**
  * Hide element
  */
-function hide(el) {
-  el.style.display = 'none';
-
-}
-/**
- * Show element
- */
-function show(el) {
-  el.style.display = 'block';
-}
 /**
  * Show the main menu after loading all assets
  */
 function mainMenu() {
-  show(main);
+  game.showScreen(menu);
   document.getElementById('menuSong').play();
   //   $('#menuSong')[0].play();
 }
@@ -65,8 +157,8 @@ function mainMenu() {
  */
 
 document.querySelectorAll('.play')[0].addEventListener('click', function () {
-  hide(menu);
-  show(game);
+  game.showScreen(gameScreen);
+  game.gameUI.initGame();
   document.getElementById('menuSong').pause();
   document.getElementById('gameSong').play();
 
@@ -76,8 +168,7 @@ document.querySelectorAll('.play')[0].addEventListener('click', function () {
 });
 
 document.querySelectorAll('.credits')[0].addEventListener('click', function () {
-  hide(menu);
-  show(credits);
+  game.showScreen(credits)
   document.getElementById('menuSong').pause();
   document.getElementById('creditsSong').play();
   console.log("test");
@@ -86,5 +177,5 @@ document.querySelectorAll('.credits')[0].addEventListener('click', function () {
 $(".toggle").on("click", function () {
   $(".container").toggleClass("microsoft");
 });
-mainMenu();
 
+mainMenu();

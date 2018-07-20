@@ -10,7 +10,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
+
 </head>
 
 <body>
@@ -33,33 +36,71 @@
                 </ul>
             </div>
         </div>
-        <div id="game" class="main">
+        <div id="gameScreen" class="main">
             <audio id="gameSong" loop>
                 <source src="assets/music/LonelyWitch.mp3" type="audio/mpeg">
             </audio>
             <div id="gameConsole" class="col-lg-12 myHeader">
-                <h1>Press any key to Start!</h1>
+                <p>Press any key to Start!</p>
             </div>
-            <div id="gameContent">
-
+            <div id="gameboardContainer" class="col-lg-6">
+                <div id="hideWord" class="col-lg-9"></div>
+                <div id="scoreBoard" class="col-lg-3">
+                    <ul>
+                        <li>
+                            Wins: 0
+                        </li>
+                        <li>
+                            Losses: 0
+                        </li>
+                        <li>
+                            Guesses: 9
+                        </li>
+                    </ul>
+                </div>
             </div>
-          
+            <div id="hint" class="col-lg-6"></div>
 
 
         </div>
-        <div id="credits" class="main">
-            <audio id="creditsSong" loop>
-                <source src="assets/music/Snabisch-GoodBye.mp3" type="audio/mpeg">
-            </audio>
-            <div class="microsoft container">
-                <p class="marquee">Developed by</p><br>
-                <p class="marquee">Allan Hartigan</p><br><br><br><br><br>
-                <p class="marquee">Graphics by</p><br>
-                <p class="marquee">Allan Hartigan</p><br><br><br><br><br>
-                <p class="marquee">Music by</p><br>
-                <p class="marquee">Allan Hartigan</p><br><br><br><br><br>
-            </div>
-           
+        <div id="gameContent">
+
+        </div>
+
+
+
+    
+    <div id="credits" class="main">
+        <audio id="creditsSong" loop>
+            <source src="assets/music/Snabisch-GoodBye.mp3" type="audio/mpeg">
+        </audio>
+        <div class="microsoft container">
+            <p class="marquee">Developed by</p>
+            <br>
+            <p class="marquee">Allan Hartigan</p>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <p class="marquee">Graphics by</p>
+            <br>
+            <p class="marquee">Allan Hartigan</p>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <p class="marquee">Music by</p>
+            <br>
+            <p class="marquee">Allan Hartigan</p>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+
     </div>
     </div>
     <!-- Optional JavaScript -->

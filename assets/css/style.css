@@ -5,8 +5,8 @@
 }
 
 body {
-    font-family: arial, sans-serif;
-    font-size: 16px;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 34px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -39,7 +39,7 @@ body {
     background-size: cover;
 }
 
-#game.main {
+#gameScreen.main {
     background-image: url('../images/mainBG.jpg');
     height: 100%; 
 
@@ -63,12 +63,12 @@ body {
     display: none;
 }
 
-#game {
+#gameScreen {
     display: none;
 }
 
 #main {
-    display: none;
+    display: block;
     margin-top: 22%;
 }
 
@@ -93,6 +93,7 @@ body {
     background-image: -webkit-linear-gradient(bottom, #0f4d29 0%, #053a0c 100%);
     background-image: linear-gradient(to bottom, #0f4d29 0%, #053a0c 100%);
     border-radius: 5px;
+    font-size: 14px;
 }
 
 .button:hover {
@@ -102,7 +103,7 @@ body {
 }
 
 #menu {
-    display: block;
+    display: none;
     position: relative;
     border: 1px solid black;
     z-index: 2;
@@ -110,7 +111,8 @@ body {
     background-color: grey;
 }
 
-#game {
+#gameScreen {
+    display: none;
     border: 1px solid black;
     z-index: 2;
     text-align: center;
@@ -153,9 +155,6 @@ a:hover {
     animation: marquee 15s linear infinite;
 }
 
-.marquee:hover {
-    animation-play-state: paused;
-}
 
 /* Make it move! */
 @keyframes marquee {
@@ -192,4 +191,60 @@ a:hover {
 
 .microsoft:before, .microsoft::before {
     top: 0;
+}
+
+#gameConsole{
+    background-color: darkslategray;
+    color: white;
+    margin-top: 20px;
+    font-size: 25px;
+    padding: 10px;
+    border: 5px solid black;
+}
+
+#gameboardContainer {
+    float: left;
+    color: white;
+    margin-top: 10px;
+}
+
+#hideWord {
+    float:left;
+    height: 500px;
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 5px solid black;
+  background-color: #4d4b48;
+  border-right: 3px;
+}
+
+#scoreBoard {
+    float:left;
+    height: 500px;
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 5px solid black;
+  border-left: 3px;
+  background-color: #a1a1a1;
+  color: black;
+  
+}
+
+#hint {
+    margin-top: 10px;
+    height: 500px;
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 5px solid black;
+  background-color: whitesmoke;
+  color: black;
 }
