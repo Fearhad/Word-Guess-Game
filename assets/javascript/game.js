@@ -66,7 +66,11 @@ var game = {
 
   processGuess: function (guess) {
     console.log(guess);
+    if (event.keyCode >= 65 && event.keyCode <= 90) {
     this.gameConsole.innerHTML = "You guessed " + guess + " and that guess is wrong!";
+    } else {
+      this.gameConsole.innerHTML = "Invalid selection. Please pick a letter or be eaten by a Grue!"
+    }
   },
 
   gameUI: {
