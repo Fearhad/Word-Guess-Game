@@ -73,7 +73,7 @@ var game = {
         this.gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
       } else {
         if (theAnswer.toLowerCase().includes(guess)) {
-          this.replaceLetters(guess);
+          this.replaceLetters(guess);          
           hideWord.innerHTML = getHiddenWord[2];
         }
         this.guessArray.push(guess);
@@ -88,16 +88,12 @@ var game = {
   replaceLetters: function (guess) {
     if (theAnswer.toLowerCase().indexOf(guess) > -1) {
       console.log(guess + " found inside your_string");
-      var myIndex = theAnswer.indexOf(guess)
-      var myString = getHiddenWord[2]
-      myString = setCharAt(myString, myIndex, guess);
 
-      function setCharAt(str, index, chr) {
-        if (index > str.length - 1) return str;
-        return str.substr(0, index) + chr + str.substr(index + 1);
+      for (i = 0; i < theAnswer.length; i++) {
+        if (theAnswer[i] == guess) {
+          getHiddenWord[i] = guess;
+        } 
       }
-
-      console.log(myString);
     } else {
       this.gameConsole.innerHTML = "You guessed " + guess + " and that guess is wrong!";
     }
