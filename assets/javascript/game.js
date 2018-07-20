@@ -32,6 +32,7 @@ var creditSong = document.getElementById("creditSong");
 var hideWord = document.getElementById("hideWord");
 var hint = document.getElementById("hint");
 var scoreBoard = document.getElementById("scoreBoard");
+var currentGuesses = document.getElementById("currentGuesses");
 
 var displayScreens = [menu, gameScreen, credits];
 var getHiddenWord;
@@ -43,7 +44,8 @@ var game = {
   wins: 0,
   losses: 0,
   remainingGuesses: 9,
-
+  guessArray: [],
+  guessString: "Guesses So Far: None",
   showScreen: function (activeDisplay) {
     displayScreens.forEach(function (currentDisplay) {
       if (currentDisplay == activeDisplay) {
@@ -67,9 +69,38 @@ var game = {
   processGuess: function (guess) {
     console.log(guess);
     if (event.keyCode >= 65 && event.keyCode <= 90) {
-    this.gameConsole.innerHTML = "You guessed " + guess + " and that guess is wrong!";
+      this.gameConsole.innerHTML = "You guessed " + guess + " and that guess is wrong!";
+      if (this.guessArray.indexOf(guess) > -1) {
+        this.gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
+      } else {
+        if (theAnswer.includes(guess)) {
+          this.replaceLetters(guess);
+          hideWord.innerHTML = getHiddenWord[2];
+        }
+        this.guessArray.push(guess);
+      }
     } else {
-      this.gameConsole.innerHTML = "Invalid selection. Please pick a letter or be eaten by a Grue!"
+      this.gameConsole.innerHTML = "Invalid selection. Please pick a letter or be eaten by a Grue!";
+    }
+    this.guessString = this.guessArray.toString();
+    currentGuesses.innerHTML = "<p> Guesses So Far : " + this.guessString + "</p>";
+  },
+
+  replaceLetters: function (guess) {
+    var arrayPosition = 0;
+    var position = -1;
+    var replacementString = "";
+
+    while (arrayPosition != -1) {
+      arrayPosition = getHiddenWord[0].indexOf(guess, position + 1);
+      console.log(getHiddenWord[0].indexOf(guess, position + 1));
+      if (arrayPosition == -1) { break; }
+      replacementString = getHiddenWord[2].substring(0, arrayPosition) + getHiddenWord[0][arrayPosition] + getHiddenWord[2].substring(arrayPosition + 1);
+      console.log(replacementString);
+      getHiddenWord[2] = replacementString;
+      console.log(getHiddenWord[2]);
+      position = arrayPosition;
+      console.log(position);
     }
   },
 
@@ -86,7 +117,7 @@ var game = {
       for (i = 0; i < newWord.length; i++) {
         console.log(newWord[i]);
         if (newWord[i] == ' ') {
-          
+
           hiddenString = hiddenString + "   ";
         } else {
           hiddenString = hiddenString + "_ ";
@@ -111,7 +142,7 @@ var game = {
       } else {
         game.losses++
       }
-      scoreBoard.innerHTML = "<ul><li>Wins: "+ game.wins + "</li><li>Losses: " + game.losses + "</li><li>Guesses Left: " + game.remainingGuesses + "</li></ul>"
+      scoreBoard.innerHTML = "<ul><li>Wins: " + game.wins + "</li><li>Losses: " + game.losses + "</li><li>Guesses Left: " + game.remainingGuesses + "</li></ul>"
     },
 
     winCondition: function () {
@@ -126,15 +157,16 @@ var game = {
 
   },
 
-    
+
 }
 
 document.onkeyup = function (event) {
-  var letter = event.key.toLowerCase();
-  game.processGuess(letter);
-  if (game.gameState === "newGame") {
+  var letter = event.key.toLowerCase();  
+  if (game.gameState === "newGame") {    
     game.start();
-  };
+  } else {
+    game.processGuess(letter);
+  }
 };
 
 

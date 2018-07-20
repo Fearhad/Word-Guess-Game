@@ -248,3 +248,16 @@ a:hover {
   background-color: whitesmoke;
   color: black;
 }
+
+#currentGuesses {
+    margin-top: 10px;
+    clear: both;
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 5px solid black;
+  background-color: whitesmoke;
+  color: black;
+}
