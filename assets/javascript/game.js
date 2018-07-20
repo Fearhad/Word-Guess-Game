@@ -72,7 +72,7 @@ var game = {
       if (this.guessArray.indexOf(guess) > -1) {
         this.gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
       } else {
-        if (theAnswer.includes(guess)) {
+        if (theAnswer.toLowerCase().includes(guess)) {
           this.replaceLetters(guess);
           hideWord.innerHTML = getHiddenWord[2];
         }
@@ -86,16 +86,16 @@ var game = {
   },
 
   replaceLetters: function (guess) {
-    if (theAnswer.indexOf(guess) > -1) {
+    if (theAnswer.toLowerCase().indexOf(guess) > -1) {
       console.log(guess + " found inside your_string");
       var myIndex = theAnswer.indexOf(guess)
       var myString = getHiddenWord[2]
-      myString = setCharAt(myString,myIndex, guess);
+      myString = setCharAt(myString, myIndex, guess);
 
-     function setCharAt(str,index,chr) {
-       if (index > str.length-1) return str;
-       return str.substr(0,index) + chr + str.substr(index+1);
-     }
+      function setCharAt(str, index, chr) {
+        if (index > str.length - 1) return str;
+        return str.substr(0, index) + chr + str.substr(index + 1);
+      }
 
       console.log(myString);
     } else {
@@ -127,7 +127,7 @@ var game = {
       game.showScreen(gameScreen);
       hideWord.innerHTML = getHiddenWord[2];
       hint.innerHTML = "<h2>Hint</h2><hr><p>" + getHiddenWord[1] + "</p>";
-      theAnswer = getHiddenWord[0].toLowerCase;
+      theAnswer = getHiddenWord[0].toLowerCase();
       menuSong.pause();
       gameSong.play();
     },
@@ -149,9 +149,9 @@ var game = {
     lossCondition: function () {
       gameConsole.innerHTML = "You Lost! You have met your fate at the Gallows Pole! The Classic RPG was " + theAnswer;
       this.updateScoreBoard("loss");
-    },
+    }
 
-  },
+  }
 
 
 }
@@ -166,19 +166,7 @@ document.onkeyup = function (event) {
 };
 
 
-/**
- * Load the main menu
- */
 
-
-
-
-/**
- * Hide element
- */
-/**
- * Show the main menu after loading all assets
- */
 function mainMenu() {
   game.showScreen(menu);
   document.getElementById('menuSong').play();
