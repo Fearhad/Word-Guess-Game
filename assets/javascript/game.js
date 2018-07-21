@@ -86,12 +86,14 @@ var game = {
   },
 
   replaceLetters: function (guess) {
+    var myString = getHiddenWord[2];
     if (theAnswer.toLowerCase().indexOf(guess) > -1) {
       console.log(guess + " found inside your_string");
 
       for (i = 0; i < theAnswer.length; i++) {
         if (theAnswer[i] == guess) {
-          getHiddenWord[i] = guess;
+         myString[i] = guess;
+         myHiddenWord[2] = myString;
         } 
       }
     } else {
