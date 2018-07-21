@@ -2,3 +2,5 @@
 My Hangman-Like Game
 
 https://fearhad.github.io/Word-Guess-Game/
+
+![picture](menuPage.png)
