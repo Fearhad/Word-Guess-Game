@@ -37,7 +37,7 @@ var currentGuesses = document.getElementById("currentGuesses");
 var displayScreens = [menu, gameScreen, credits];
 var getHiddenWord;
 var theAnswer;
-var myString = "";
+var myString;
 
 
 var game = {
@@ -93,7 +93,7 @@ var game = {
 
       for (i = 0; i < theAnswer.length; i++) {
         if (theAnswer[i] == guess) {
-         myString[i] = guess;
+         myString[i] = theAnswer[i];
          getHiddenWord[2] = myString;
         }; 
       };
