@@ -32,6 +32,9 @@ var creditSong = document.getElementById("creditSong");
 var hideWord = document.getElementById("hideWord");
 var hint = document.getElementById("hint");
 var scoreBoard = document.getElementById("scoreBoard");
+var winCount = document.getElementById("winCount");
+var lossCount = document.getElementById("lossCount")
+var guessesLeft = document.getElementById("guessesLeft")
 var currentGuesses = document.getElementById("currentGuesses");
 
 var displayScreens = [menu, gameScreen, credits];
@@ -41,64 +44,70 @@ var getHiddenWord;
 
 var game = {
 
-  wins: 0,
-  losses: 0,
-  remainingGuesses: 9,
-  guessArray: [],
-  guessString: "Guesses So Far: None",
-  showScreen: function (activeDisplay) {
-    displayScreens.forEach(function (currentDisplay) {
-      if (currentDisplay == activeDisplay) {
-        currentDisplay.style.display = "block";
-      } else {
-        currentDisplay.style.display = "none";
-      }
-    })
-  },
-
-  gameState: "newGame",
-  gameConsole: 0,
-  start: function () {
-    this.gameConsole = document.getElementById("gameConsole");
-    if (gameConsole) {
-      gameConsole.innerHTML = "The Game is a Foot :P!";
-    }
-    this.gameState = "isPlaying";
-  },
-
-  processGuess: function (guess) {
-    if (event.keyCode >= 65 && event.keyCode <= 90) {
-
-      if (this.guessArray.indexOf(guess) > -1) {
-        this.gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
-      } else {
-        if (theAnswer.toLowerCase().includes(guess)) {
-          this.replaceLetters(guess);          
-          hideWord.innerHTML = getHiddenWord[2];
+    wins: 0,
+    losses: 0,
+    remainingGuesses: 9,
+    guessArray: [],
+    guessString: "Guesses So Far: None",
+    showScreen: function (activeDisplay) {
+      displayScreens.forEach(function (currentDisplay) {
+        if (currentDisplay == activeDisplay) {
+          currentDisplay.style.display = "block";
+        } else {
+          currentDisplay.style.display = "none";
         }
-        this.guessArray.push(guess);
+      })
+    },
+
+    gameState: "newGame",
+    gameConsole: 0,
+    start: function () {
+      this.gameConsole = document.getElementById("gameConsole");
+      gameConsole.innerHTML = "Good Luck on your Adventure!";
+      
+      this.gameState = "isPlaying";
+    },
+
+    processGuess: function (guess) {
+      if (event.keyCode >= 65 && event.keyCode <= 90) {
+
+        if (this.guessArray.indexOf(guess) > -1) {
+          this.gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
+        } else {
+          if (getHiddenWord[0].toLowerCase().includes(guess)) {
+            this.gameConsole.innerHTML = "You are one step closer to saving the day! " + guess + " was correct!";
+            this.replaceLetters(guess);
+            hideWord.innerHTML = getHiddenWord[2];
+          } else {
+            this.gameConsole.innerHTML = "A fire trap goes off and incinerates you for incorrectly guessing that letter!"
+            this.remainingGuesses--;
+            guessesLeft.innerHTML = "Lives: " + this.remainingGuesses
+          }
+          this.guessArray.push(guess);
+        }
+      } else {
+        this.gameConsole.innerHTML = "Invalid selection. Please pick a letter or be eaten by a Grue!";
       }
-    } else {
-      this.gameConsole.innerHTML = "Invalid selection. Please pick a letter or be eaten by a Grue!";
-    }
-    this.guessString = this.guessArray.toString();
-    currentGuesses.innerHTML = "<p> Guesses So Far : " + this.guessString + "</p>";
-  },
+      this.guessString = this.guessArray.toString();
+      currentGuesses.innerHTML = "<p> Guesses So Far : " + this.guessString + "</p>";
+      if (!getHiddenWord[2].toLowerCase().includes("_")) {
+        this.gameUI.winCondition();
+      }
+    },
 
-  replaceLetters: function (guess) {
-    
-    if (getHiddenWord[0].toLowerCase().indexOf(guess) > -1) {
-      console.log(guess + " found inside your_string");
+    replaceLetters: function (guess) {
+      var myString = getHiddenWord[2]; 
 
-      for (var i = 0; i < getHiddenWord[0].length; i++) {
-        if (getHiddenWord[0][i] == guess) {
-         getHiddenWord[2][i] = guess;
-        }; 
-      };
-    } else {
-      this.gameConsole.innerHTML = "You guessed " + guess + " and that guess is wrong!";
-    }
-  },
+      function replaceAt(string, index, replace) {
+        return string.substring(0, index) + replace + string.substring(index + 1);
+      }
+      for (var i = 0; i < myString.length; i++) {
+        if (getHiddenWord[0].charAt(i).toLowerCase() == guess) {
+          myString = replaceAt(myString, i, guess)   
+          getHiddenWord[2] = myString;
+        } 
+  }
+},
 
   gameUI: {
 
@@ -109,8 +118,8 @@ var game = {
 
     hiddenWord: function (newWord) {
       var hiddenString = "";
-      for (var i = 0; i < newWord.length; i++) {
-        if (newWord[i] == ' ') {
+      for (var j = 0; j < newWord.length; j++) {
+        if (newWord[j] == ' ') {
           hiddenString = hiddenString + " ";
         } else {
           hiddenString = hiddenString + "_";
@@ -130,21 +139,22 @@ var game = {
 
     updateScoreBoard: function (result) {
       if (result == "win") {
-        game.wins++
+        this.wins++;
+        winCount.innerHTML = "Wins: +" + this.wins;
       } else {
-        game.losses++
+        this.losses++;
+        lossCount.innerHTML = "Wins: +" + this.losses;
       }
-      scoreBoard.innerHTML = "<ul><li>Wins: " + game.wins + "</li><li>Losses: " + game.losses + "</li><li>Guesses Left: " + game.remainingGuesses + "</li></ul>"
     },
 
     winCondition: function () {
-      gameConsole.innerHTML = "You win! The Classic RPG was " + theAnswer;
-      this.updateScoreBoard("win");
+      gameConsole.innerHTML = "You win! The Classic RPG was " + getHiddenWord[0];
+      this.gameUI.updateScoreBoard("win");
     },
 
     lossCondition: function () {
-      gameConsole.innerHTML = "You Lost! You have met your fate at the Gallows Pole! The Classic RPG was " + theAnswer;
-      this.updateScoreBoard("loss");
+      gameConsole.innerHTML = "You Lost! You have met your fate at the Gallows Pole! The Classic RPG was " + getHiddenWord[0];
+      this.gameUI.updateScoreBoard("loss");
     }
 
   }
@@ -153,7 +163,7 @@ var game = {
 }
 
 document.onkeyup = function (event) {
-  var letter = event.key.toLowerCase();
+  var letter = event.key;
   if (game.gameState === "newGame") {
     game.start();
   } else {
