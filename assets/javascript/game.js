@@ -36,8 +36,7 @@ var currentGuesses = document.getElementById("currentGuesses");
 
 var displayScreens = [menu, gameScreen, credits];
 var getHiddenWord;
-var theAnswer;
-var myString;
+
 
 
 var game = {
@@ -88,13 +87,12 @@ var game = {
 
   replaceLetters: function (guess) {
     
-    if (theAnswer.toLowerCase().indexOf(guess) > -1) {
+    if (getHiddenWord[0].toLowerCase().indexOf(guess) > -1) {
       console.log(guess + " found inside your_string");
 
-      for (var i = 0; i < theAnswer.length; i++) {
-        if (theAnswer[i] == guess) {
-         myString[i] = guess;
-         getHiddenWord[2] = myString;
+      for (var i = 0; i < getHiddenWord[0].length; i++) {
+        if (getHiddenWord[0][i] == guess) {
+         getHiddenWord[2][i] = guess;
         }; 
       };
     } else {
@@ -126,8 +124,6 @@ var game = {
       game.showScreen(gameScreen);
       hideWord.innerHTML = getHiddenWord[2];
       hint.innerHTML = "<h2>Hint</h2><hr><p>" + getHiddenWord[1] + "</p>";
-      theAnswer = getHiddenWord[0].toLowerCase();
-      myString = getHiddenWord[2];
       menuSong.pause();
       gameSong.play();
     },
