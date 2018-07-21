@@ -36,6 +36,7 @@ var winCount = document.getElementById("winCount");
 var lossCount = document.getElementById("lossCount")
 var guessesLeft = document.getElementById("guessesLeft")
 var currentGuesses = document.getElementById("currentGuesses");
+var tryAgain = document.getElementById("tryAgain")
 
 var displayScreens = [menu, gameScreen, credits];
 var getHiddenWord;
@@ -44,31 +45,32 @@ var getHiddenWord;
 
 var game = {
 
-    wins: 0,
-    losses: 0,
-    remainingGuesses: 9,
-    guessArray: [],
-    guessString: "Guesses So Far: None",
-    showScreen: function (activeDisplay) {
-      displayScreens.forEach(function (currentDisplay) {
-        if (currentDisplay == activeDisplay) {
-          currentDisplay.style.display = "block";
-        } else {
-          currentDisplay.style.display = "none";
-        }
-      })
-    },
+  wins: 0,
+  losses: 0,
+  remainingGuesses: 9,
+  guessArray: [],
+  guessString: "Guesses So Far: None",
+  showScreen: function (activeDisplay) {
+    displayScreens.forEach(function (currentDisplay) {
+      if (currentDisplay == activeDisplay) {
+        currentDisplay.style.display = "block";
+      } else {
+        currentDisplay.style.display = "none";
+      }
+    })
+  },
 
-    gameState: "newGame",
-    gameConsole: 0,
-    start: function () {
-      this.gameConsole = document.getElementById("gameConsole");
-      gameConsole.innerHTML = "Good Luck on your Adventure!";
-      
-      this.gameState = "isPlaying";
-    },
+  gameState: "newGame",
+  gameConsole: 0,
+  start: function () {
+    this.gameConsole = document.getElementById("gameConsole");
+    gameConsole.innerHTML = "Good Luck on your Adventure! Make your first guess!";
 
-    processGuess: function (guess) {
+    this.gameState = "isPlaying";
+  },
+
+  processGuess: function (guess) {
+    if (this.gameState !== "gameOver") {
       if (event.keyCode >= 65 && event.keyCode <= 90) {
 
         if (this.guessArray.indexOf(guess) > -1) {
@@ -91,23 +93,29 @@ var game = {
       this.guessString = this.guessArray.toString();
       currentGuesses.innerHTML = "<p> Guesses So Far : " + this.guessString + "</p>";
       if (!getHiddenWord[2].toLowerCase().includes("_")) {
+        this.gameState = "gameOver";
         this.gameUI.winCondition();
       }
-    },
-
-    replaceLetters: function (guess) {
-      var myString = getHiddenWord[2]; 
-
-      function replaceAt(string, index, replace) {
-        return string.substring(0, index) + replace + string.substring(index + 1);
+      if (this.remainingGuesses < 1) {
+        this.gameState = "gameOver";
+        this.gameUI.lossCondition();
       }
-      for (var i = 0; i < myString.length; i++) {
-        if (getHiddenWord[0].charAt(i).toLowerCase() == guess) {
-          myString = replaceAt(myString, i, guess)   
-          getHiddenWord[2] = myString;
-        } 
-  }
-},
+    }
+  },
+
+  replaceLetters: function (guess) {
+    var myString = getHiddenWord[2];
+
+    function replaceAt(string, index, replace) {
+      return string.substring(0, index) + replace + string.substring(index + 1);
+    }
+    for (var i = 0; i < myString.length; i++) {
+      if (getHiddenWord[0].charAt(i).toLowerCase() == guess) {
+        myString = replaceAt(myString, i, guess)
+        getHiddenWord[2] = myString;
+      }
+    }
+  },
 
   gameUI: {
 
@@ -129,6 +137,13 @@ var game = {
     },
 
     initGame: function () {
+      game.gameState = "isPlaying"
+      game.guessString = "";
+      currentGuesses.innerHTML = "<p> Guesses So Far : </p>";
+      game.remainingGuesses = 9;
+      guessesLeft.innerHTML = "Lives: " + game.remainingGuesses
+      game.guessArray = [];
+      gameConsole.innerHTML = "Press any key to start!";
       getHiddenWord = this.findWord();
       game.showScreen(gameScreen);
       hideWord.innerHTML = getHiddenWord[2];
@@ -139,25 +154,33 @@ var game = {
 
     updateScoreBoard: function (result) {
       if (result == "win") {
-        this.wins++;
-        winCount.innerHTML = "Wins: +" + this.wins;
+        game.wins = game.wins + 1;
+        winCount.innerHTML = "Wins: " + game.wins;
       } else {
-        this.losses++;
-        lossCount.innerHTML = "Wins: +" + this.losses;
+        game.losses++;
+        lossCount.innerHTML = "Losses: " + game.losses;
       }
     },
 
     winCondition: function () {
       gameConsole.innerHTML = "You win! The Classic RPG was " + getHiddenWord[0];
-      this.gameUI.updateScoreBoard("win");
+      game.gameUI.updateScoreBoard("win");
+      this.promptTryAgain();
     },
 
     lossCondition: function () {
       gameConsole.innerHTML = "You Lost! You have met your fate at the Gallows Pole! The Classic RPG was " + getHiddenWord[0];
-      this.gameUI.updateScoreBoard("loss");
+      game.gameUI.updateScoreBoard("loss");
+      this.promptTryAgain();
+    },
+
+    promptTryAgain: function () {
+      tryAgain.style.display = "block";
+
     }
 
   }
+
 
 
 }
@@ -185,20 +208,31 @@ function mainMenu() {
 document.querySelectorAll('.play')[0].addEventListener('click', function () {
   game.showScreen(gameScreen);
   game.gameUI.initGame();
-  document.getElementById('menuSong').pause();
+  menuSong.pause();
+  gameSong.play();
   document.getElementById('gameSong').play();
 
   /* startGame(); */
 });
 
+document.querySelectorAll('.tryYes')[0].addEventListener('click', function () {
+  tryAgain.style.display = "none";
+  game.gameUI.initGame();
+});
+
+document.querySelectorAll('.tryNo')[0].addEventListener('click', function () {
+  gameSong.pause();
+  tryAgain.style.display = "none";
+  game.showScreen(credits);
+  creditsSong.play();
+});
+
 document.querySelectorAll('.credits')[0].addEventListener('click', function () {
-  game.showScreen(credits)
-  document.getElementById('menuSong').pause();
-  document.getElementById('creditsSong').play();
+  menuSong.pause();
+  game.showScreen(credits);
+  creditsSong.play();
 
 });
-$(".toggle").on("click", function () {
-  $(".container").toggleClass("microsoft");
-});
+
 
 mainMenu();
