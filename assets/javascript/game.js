@@ -71,7 +71,7 @@ var game = {
 
   processGuess: function (guess) {
     if (this.gameState !== "gameOver") {
-      if (e.keyCode >= 65 && e.keyCode <= 90) {
+      if (guess >= 'a' && guess <= 'z') {
 
         if (this.guessArray.indexOf(guess) > -1) {
           gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
@@ -185,8 +185,8 @@ var game = {
 
 }
 
-document.onkeyup = function (e) {
-  var letter = e.key;
+document.onkeyup = function (event) {
+  var letter = event.key;
   if (game.gameState === "newGame") {
     game.start();
   } else {
