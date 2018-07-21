@@ -91,7 +91,7 @@ var game = {
     if (theAnswer.toLowerCase().indexOf(guess) > -1) {
       console.log(guess + " found inside your_string");
 
-      for (i = 0; i < theAnswer.length; i++) {
+      for (var i = 0; i < theAnswer.length; i++) {
         if (theAnswer[i] == guess) {
          myString[i] = theAnswer[i];
          getHiddenWord[2] = myString;
