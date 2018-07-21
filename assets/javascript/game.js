@@ -93,7 +93,7 @@ var game = {
 
       for (var i = 0; i < theAnswer.length; i++) {
         if (theAnswer[i] == guess) {
-         myString[i] = theAnswer[i];
+         myString[i] = guess;
          getHiddenWord[2] = myString;
         }; 
       };
@@ -111,7 +111,7 @@ var game = {
 
     hiddenWord: function (newWord) {
       var hiddenString = "";
-      for (i = 0; i < newWord.length; i++) {
+      for (var i = 0; i < newWord.length; i++) {
         if (newWord[i] == ' ') {
           hiddenString = hiddenString + " ";
         } else {
