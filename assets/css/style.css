@@ -30,7 +30,7 @@ body {
 }
 
 #menu.main {
-    background-image: url('../images/swamp.jpg');
+    background-image: url('../images/menu.png');
     height: 100%; 
 
     /* Center and scale the image nicely */
@@ -94,7 +94,7 @@ body {
     background-image: -webkit-linear-gradient(bottom, #0f4d29 0%, #053a0c 100%);
     background-image: linear-gradient(to bottom, #0f4d29 0%, #053a0c 100%);
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 20px;
 }
 
 .button:hover {
@@ -161,7 +161,7 @@ a:hover {
 /* Make it move! */
 @keyframes marquee {
     0%   { top:   38em }
-    100% { top: -25em }
+    100% { top: -50em }
 }
 
 /* Make it look pretty */

@@ -61,9 +61,9 @@ var game = {
   },
 
   gameState: "newGame",
-  gameConsole: 0,
+  
   start: function () {
-    this.gameConsole = document.getElementById("gameConsole");
+    gameConsole = document.getElementById("gameConsole");
     gameConsole.innerHTML = "Good Luck on your Adventure! Make your first guess!";
 
     this.gameState = "isPlaying";
@@ -74,21 +74,21 @@ var game = {
       if (event.keyCode >= 65 && event.keyCode <= 90) {
 
         if (this.guessArray.indexOf(guess) > -1) {
-          this.gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
+          gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
         } else {
           if (getHiddenWord[0].toLowerCase().includes(guess)) {
-            this.gameConsole.innerHTML = "You are one step closer to saving the day! " + guess + " was correct!";
+            gameConsole.innerHTML = "You are one step closer to saving the day! " + guess + " was correct!";
             this.replaceLetters(guess);
             hideWord.innerHTML = getHiddenWord[2];
           } else {
-            this.gameConsole.innerHTML = "A fire trap goes off and incinerates you for incorrectly guessing that letter!"
+            gameConsole.innerHTML = "A fire trap goes off and incinerates you for incorrectly guessing that letter!"
             this.remainingGuesses--;
             guessesLeft.innerHTML = "Lives: " + this.remainingGuesses
           }
           this.guessArray.push(guess);
         }
       } else {
-        this.gameConsole.innerHTML = "Invalid selection. Please pick a letter or be eaten by a Grue!";
+        gameConsole.innerHTML = "Invalid selection. Please pick a letter or be eaten by a Grue!";
       }
       this.guessString = this.guessArray.toString();
       currentGuesses.innerHTML = "<p> Guesses So Far : " + this.guessString + "</p>";
@@ -143,7 +143,7 @@ var game = {
       game.remainingGuesses = 9;
       guessesLeft.innerHTML = "Lives: " + game.remainingGuesses
       game.guessArray = [];
-      gameConsole.innerHTML = "Press any key to start!";
+      gameConsole.innerHTML = "Guess a letter to start your adventure!";
       getHiddenWord = this.findWord();
       game.showScreen(gameScreen);
       hideWord.innerHTML = getHiddenWord[2];
@@ -163,7 +163,7 @@ var game = {
     },
 
     winCondition: function () {
-      gameConsole.innerHTML = "You win! The Classic RPG was " + getHiddenWord[0];
+      gameConsole.innerHTML = "You slayed the dragon! The Classic RPG was " + getHiddenWord[0];
       game.gameUI.updateScoreBoard("win");
       this.promptTryAgain();
     },
