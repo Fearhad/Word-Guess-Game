@@ -93,7 +93,7 @@ var game = {
       for (i = 0; i < theAnswer.length; i++) {
         if (theAnswer[i] == guess) {
          myString[i] = guess;
-         myHiddenWord[2] = myString;
+         getHiddenWord[2] = myString;
         } 
       }
     } else {
