@@ -78,6 +78,7 @@ var game = {
           gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
         } else {
           if (getHiddenWord[0].toLowerCase().includes(guess)) {
+            correctGuessSound.currentTime = 0;
             correctGuessSound.play();
             gameConsole.innerHTML = "You are one step closer to saving the day! " + guess + " was correct!";
             this.replaceLetters(guess);
