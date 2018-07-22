@@ -28,6 +28,7 @@ var credits = document.getElementById('credits');
 var menuSong = document.getElementById("menuSong");
 var gameSong = document.getElementById("gameSong");
 var creditSong = document.getElementById("creditSong");
+var correctGuessSound = document.getElementById("correctGuessSound");
 
 var hideWord = document.getElementById("hideWord");
 var hint = document.getElementById("hint");
@@ -77,6 +78,7 @@ var game = {
           gameConsole.innerHTML = "You already guessed this letter! Lord British places his face in his palm. Please try again!";
         } else {
           if (getHiddenWord[0].toLowerCase().includes(guess)) {
+            correctGuessSound.play();
             gameConsole.innerHTML = "You are one step closer to saving the day! " + guess + " was correct!";
             this.replaceLetters(guess);
             hideWord.innerHTML = getHiddenWord[2];
