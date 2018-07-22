@@ -221,6 +221,7 @@ a:hover {
   border: 5px solid black;
   background-color: #4d4b48;
   border-right: 3px;
+  letter-spacing: 3px;
 }
 
 #scoreBoard {
