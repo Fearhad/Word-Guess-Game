@@ -62,7 +62,7 @@ var game = {
   },
 
   gameState: "newGame",
-  
+
   start: function () {
     gameConsole = document.getElementById("gameConsole");
     gameConsole.innerHTML = "Good Luck on your Adventure! Make your first guess!";
@@ -201,10 +201,9 @@ document.onkeyup = function (event) {
 function mainMenu() {
   game.showScreen(menu);
   document.getElementById('menuSong').play();
-  //   $('#menuSong')[0].play();
 }
 /**
- * Click handlers for the different menu screens
+ * Click handlers for the different screens
  */
 
 document.querySelectorAll('.play')[0].addEventListener('click', function () {
