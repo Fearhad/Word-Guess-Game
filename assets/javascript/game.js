@@ -1,3 +1,5 @@
+//Array of all words available with hints
+
 var wordList = [
   ['Ancient Land of Ys', 'an action role-playing video game series developed by Nihon Falcom in 1987'],
   ['The Bards Tale', 'a fantasy role-playing video game designed and programmed by Michael Cranford, produced by Interplay Productions in 1985 and distributed by Electronic Arts.'],
@@ -20,15 +22,20 @@ var wordList = [
   ['System Shock', 'a 1994 first-person action-adventure video game developed by Looking Glass Technologies and published by Origin Systems'],
   ['Temple of Asphai', ' a dungeon crawl role-playing video game developed and published by Automated Simulations (later renamed to Epyx) in 1979']
 ]
+//holders for different screens
 
 var menu = document.getElementById('menu');
 var gameScreen = document.getElementById('gameScreen');
 var credits = document.getElementById('credits');
 
+//holders for all audio elements
+
 var menuSong = document.getElementById("menuSong");
 var gameSong = document.getElementById("gameSong");
 var creditSong = document.getElementById("creditSong");
 var correctGuessSound = document.getElementById("correctGuessSound");
+
+// holders for different UI elements
 
 var hideWord = document.getElementById("hideWord");
 var hint = document.getElementById("hint");
@@ -39,18 +46,24 @@ var guessesLeft = document.getElementById("guessesLeft")
 var currentGuesses = document.getElementById("currentGuesses");
 var tryAgain = document.getElementById("tryAgain")
 
+// variables required for some of the game functions
+
 var displayScreens = [menu, gameScreen, credits];
 var getHiddenWord;
 
 
+// The game object
 
 var game = {
 
-  wins: 0,
-  losses: 0,
-  remainingGuesses: 9,
-  guessArray: [],
-  guessString: "Guesses So Far: None",
+  wins: 0,                                                    //Win Counter
+  losses: 0,                                                  //Loss Counter
+  remainingGuesses: 9,                                        //Lives Counter
+  guessArray: [],                                             //Array used to track guesses
+  guessString: "Guesses So Far: None",                        //String used to display guesses
+
+  //This will switch screens between the game menu, game screen and credits screen depending on what is passed to it
+
   showScreen: function (activeDisplay) {
     displayScreens.forEach(function (currentDisplay) {
       if (currentDisplay == activeDisplay) {
@@ -70,6 +83,10 @@ var game = {
     this.gameState = "isPlaying";
   },
 
+  // The main function to process each guess the user makes. Checks the current word to see if it includes input
+  // If correct it calls the replaceLetters function. If incorrect it decrements the lives total. Also checks for win
+  // and loss conditions
+  
   processGuess: function (guess) {
     if (this.gameState !== "gameOver") {
       if (guess >= 'a' && guess <= 'z') {
@@ -106,6 +123,8 @@ var game = {
     }
   },
 
+  // replaces the hidden letter with the actual letter if guessed properly
+
   replaceLetters: function (guess) {
     var myString = getHiddenWord[2];
 
@@ -120,12 +139,19 @@ var game = {
     }
   },
 
+  // I initially had a reason to declare an object within the main game object but it was lost during the evolution
+  // my code. It did help me understand scope and was a useful learning experience. 
+
   gameUI: {
+
+    //selects a random word of the wordList Array
 
     findWord: function () {
       var wordListArray = wordList[Math.floor(wordList.length * Math.random())];
       return wordListArray.concat(this.hiddenWord(wordListArray[0]));
     },
+
+    //creates the hidden word string which is displayed in the game
 
     hiddenWord: function (newWord) {
       var hiddenString = "";
@@ -138,6 +164,8 @@ var game = {
       }
       return hiddenString;
     },
+
+    //Initializes a new game when run
 
     initGame: function () {
       game.gameState = "isPlaying"
@@ -155,6 +183,8 @@ var game = {
       gameSong.play();
     },
 
+    //Updates the in-game scoreboard
+
     updateScoreBoard: function (result) {
       if (result == "win") {
         game.wins = game.wins + 1;
@@ -165,17 +195,23 @@ var game = {
       }
     },
 
+    //lets the user know they won and prompts to play again while updating the scoreboard
+
     winCondition: function () {
       gameConsole.innerHTML = "You slayed the dragon! The Classic RPG was " + getHiddenWord[0];
       game.gameUI.updateScoreBoard("win");
       this.promptTryAgain();
     },
 
+    // and what happens when they lost
+
     lossCondition: function () {
       gameConsole.innerHTML = "You Lost! You have met your fate at the Gallows Pole! The Classic RPG was " + getHiddenWord[0];
       game.gameUI.updateScoreBoard("loss");
       this.promptTryAgain();
     },
+
+    // function which displays the try again buttons
 
     promptTryAgain: function () {
       tryAgain.style.display = "block";
@@ -188,6 +224,8 @@ var game = {
 
 }
 
+//checks for key up
+
 document.onkeyup = function (event) {
   var letter = event.key;
   if (game.gameState === "newGame") {
@@ -197,7 +235,7 @@ document.onkeyup = function (event) {
   }
 };
 
-
+//initializes Main Menu
 
 function mainMenu() {
   game.showScreen(menu);
@@ -213,8 +251,6 @@ document.querySelectorAll('.play')[0].addEventListener('click', function () {
   menuSong.pause();
   gameSong.play();
   document.getElementById('gameSong').play();
-
-  /* startGame(); */
 });
 
 document.querySelectorAll('.tryYes')[0].addEventListener('click', function () {
@@ -236,5 +272,5 @@ document.querySelectorAll('.credits')[0].addEventListener('click', function () {
 
 });
 
-
+//Launches Main Menu when page is loaded
 mainMenu();
